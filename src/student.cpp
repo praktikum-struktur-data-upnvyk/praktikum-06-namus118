@@ -39,32 +39,32 @@ using namespace std;
 // yang menjadi pembanding untuk Soal 2.
 
 void inisialisasi(Queue& q) {
-    q.depan = NULL;
-    q.belakang = NULL;
+     q.depan = NULL;
+     q.belakang = NULL;
 }
 
 bool isEmpty(const Queue& q) {
-    return q.depan == NULL;
+     return q.depan == NULL;
 }
 
 bool front(const Queue& q, int& nomor) {
-    if (q.depan == NULL) return false;
+     if (q.depan == NULL) return false;
 
-    nomor = q.depan->data;
-    return true;
+     nomor = q.depan->data;
+     return true;
 }
 
 string display(const Queue& q) {
-    ostringstream keluaran;
-    bool pertama = true;
+     ostringstream keluaran;
+     bool pertama = true;
 
-    for (Node* p = q.depan; p != NULL; p = p->next) {
-        if (!pertama) keluaran << " ";
-        keluaran << p->data;
-        pertama = false;
-    }
+     for (Node* p = q.depan; p != NULL; p = p->next) {
+          if (!pertama) keluaran << " ";
+          keluaran << p->data;
+          pertama = false;
+     }
 
-    return keluaran.str();
+     return keluaran.str();
 }
 // =============================================================================
 
@@ -73,7 +73,15 @@ string display(const Queue& q) {
 // =============================================================================
 bool enqueue(Queue& q, int nomor) {
     // TODO: kerjakan di sini
-    return false;
+     Node *baru = new Node {nomor, nullptr};
+     if(isEmpty(q)){
+          q.depan = baru;
+     } else{
+          q.belakang->next = baru;
+     }
+
+     q.belakang = baru;
+     return true;
 }
 
 // =============================================================================
@@ -81,7 +89,20 @@ bool enqueue(Queue& q, int nomor) {
 // =============================================================================
 bool dequeue(Queue& q, int& nomor) {
     // TODO: kerjakan di sini
-    return false;
+     if(isEmpty(q)){
+          return false;
+     }
+
+     Node *hapus = q.depan;
+     nomor = hapus->data;
+     q.depan = hapus->next;
+
+     if(q.depan == nullptr){
+          q.belakang = nullptr;
+     }
+
+     delete hapus;
+     return true;
 }
 
 // =============================================================================
@@ -89,6 +110,14 @@ bool dequeue(Queue& q, int& nomor) {
 // =============================================================================
 void clear(Queue& q) {
     // TODO: kerjakan di sini
+     Node *bantu = q.depan;
+
+     while(bantu != nullptr){
+          Node *hapus = bantu;
+          bantu = bantu->next;
+          delete hapus;
+     }
+     q = Queue{};
 }
 
 // =============================================================================
